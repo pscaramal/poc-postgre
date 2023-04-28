@@ -3,6 +3,9 @@ spring:
     url: 'r2dbc:pool:postgresql://localhost:5432/db_sentry'
     username: postgres
     password: postgres
+    port: 5432
+    host: localhost
+    db: db_sentry
   flyway:
     driverClassName: org.postgresql.Driver
     url: 'jdbc:postgresql://localhost:5432/db_sentry'

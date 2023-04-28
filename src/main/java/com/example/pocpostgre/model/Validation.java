@@ -1,37 +1,25 @@
 package com.example.pocpostgre.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
-
 import java.util.Map;
 
-@Table("validation")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Validation {
 
-    @Id
-    @Column(value = "validation_id")
     private String id;
 
-    @Column(value = "rule_id")
     private String ruleId;
 
-    @Column(value = "isActive")
     private Boolean active;
 
     private String path;
 
     private String operator;
 
-    @Column(value = "value_validation")
     private String value;
 
-    @Column(value = "isValueNumber")
     private Boolean number;
 
-    @Column(value = "isCardValidation")
     private Boolean cardValidation;
 
     private Validation (String id, String ruleId, Boolean active, String path, String operator, String value, Boolean number, Boolean cardValidation){

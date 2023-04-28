@@ -1,30 +1,21 @@
 package com.example.pocpostgre.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-@Table("rule")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Rule {
 
-    @Id
-    @Column(value = "rule_id")
     private String id;
 
-    @Column(value = "rule_name")
     private String name;
 
-    @Column(value = "segment")
     private String segment;
 
-    @Column(value = "isActive")
     private Boolean active;
 
     private List<Validation> validations;
