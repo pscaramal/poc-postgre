@@ -1,11 +1,13 @@
 package com.example.pocpostgre.model;
 
+import com.example.pocpostgre.controller.dto.RuleResponseDTO;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Rule {
@@ -39,6 +41,19 @@ public class Rule {
                                 .filter(Objects::nonNull)
                                 .toList())
                 .build());
+    }
+
+    public RuleResponseDTO toDTO(){
+        return RuleResponseDTO.builder()
+                .ruleId(this.id)
+                .ruleName(this.name)
+                .ofSegment(this.segment)
+                .isActive(this.active)
+                .withValidations(this.validations
+                        .stream()
+                        .map(Validation::toDto)
+                        .collect(Collectors.toList()))
+                .build();
     }
 
     public static RuleBuilder builder(){

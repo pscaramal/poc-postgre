@@ -1,9 +1,9 @@
 package com.example.pocpostgre.model;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.example.pocpostgre.controller.dto.ValidationResponseDTO;
+
 import java.util.Map;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Validation {
 
     private String id;
@@ -12,7 +12,7 @@ public class Validation {
 
     private Boolean active;
 
-    private String path;
+    private Path path;
 
     private String operator;
 
@@ -22,7 +22,7 @@ public class Validation {
 
     private Boolean cardValidation;
 
-    private Validation (String id, String ruleId, Boolean active, String path, String operator, String value, Boolean number, Boolean cardValidation){
+    private Validation (String id, String ruleId, Boolean active, Path path, String operator, String value, Boolean number, Boolean cardValidation){
         this.id = id;
         this.ruleId = ruleId;
         this.active = active;
@@ -51,6 +51,20 @@ public class Validation {
         }
         return null;
     }
+
+    public ValidationResponseDTO toDto() {
+        return ValidationResponseDTO.builder()
+                .validationId(this.id)
+                .ruleId(this.ruleId)
+                .isActive(this.active)
+                .path(this.path.getPath())
+                .operator(this.operator)
+                .withValue(this.value)
+                .isNumber(this.number)
+                .isCardValidation(this.cardValidation)
+                .build();
+    }
+
     public static class ValidationBuilder {
         private String id;
         private String ruleId;
@@ -102,7 +116,7 @@ public class Validation {
         }
 
         public Validation build(){
-            return new Validation(this.id, this.ruleId, this.active, this.path, this.operator, this.value, this.number, this.cardValidation);
+            return new Validation(this.id, this.ruleId, this.active, new Path(this.path), this.operator, this.value, this.number, this.cardValidation);
         }
     }
 }
