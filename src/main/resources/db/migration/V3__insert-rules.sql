@@ -6,7 +6,7 @@ INSERT INTO validation(validation_id, rule_id, isActive, path, operator, value_v
 VALUES ('83fe2fcf-bccb-46d7-85e7-f080205a75e1', '48afc457-a958-47b1-8c25-dc5a79a2e739', true, 'merchant.merchantId', '==', 'aa839b1b-2d13-4317-925f-f8ffa38bbcda', false, false);
 
 INSERT INTO validation(validation_id, rule_id, isActive, path, operator, value_validation, isValueNumber, isCardValidation)
-VALUES ('a4218ead-4c24-426e-bd4a-567b38b51031', '48afc457-a958-47b1-8c25-dc5a79a2e739', true, 'payment.paymentMethods.creditCard.bin', '=~', '498431', false, true);
+VALUES ('a4218ead-4c24-426e-bd4a-567b38b51031', '48afc457-a958-47b1-8c25-dc5a79a2e739', true, 'payment.paymentMethods.creditCard.bin', 'IN', '498431', false, true);
 
 -- Segunda rule
 INSERT INTO rule (rule_id, rule_name, segment, isActive)
@@ -16,7 +16,7 @@ INSERT INTO validation(validation_id, rule_id, isActive, path, operator, value_v
 VALUES ('b1fdc4ba-5801-46f6-b82a-790ea9f031bc', '35eaca26-437a-4d6a-b188-1a1995662ab3', true, 'merchant.merchantId', '==', 'afee5a00-8447-43d7-9c3f-59572172117c', false, false);
 
 INSERT INTO validation(validation_id, rule_id, isActive, path, operator, value_validation, isValueNumber, isCardValidation)
-VALUES ('72e11b92-48ff-46f5-b445-9443ecd8be1d', '35eaca26-437a-4d6a-b188-1a1995662ab3', true, 'payment.paymentMethods.creditCard.bin', '=~', '498431,498408,498406', false, true);
+VALUES ('72e11b92-48ff-46f5-b445-9443ecd8be1d', '35eaca26-437a-4d6a-b188-1a1995662ab3', true, 'payment.paymentMethods.creditCard.bin', 'IN', '498431,498408,498406', false, true);
 
 -- Terceira rule
 INSERT INTO rule (rule_id, rule_name, segment, isActive)

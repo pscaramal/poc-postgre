@@ -4,31 +4,31 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ValidationResponseDTO {
 
-    private String id;
+    private final String id;
 
-    private String ruleId;
+    private final String ruleId;
 
-    private Boolean active;
+    private final Boolean active;
 
-    private String path;
+    private final String path;
 
-    private String operator;
+    private final String operator;
 
-    private String value;
+    private final String value;
 
-    private Boolean number;
+    private final String valueType;
+    private final Boolean cardValidation;
 
-    private Boolean cardValidation;
-
-    private ValidationResponseDTO(String id, String ruleId, Boolean active, String path, String operator, String value, Boolean number, Boolean cardValidation) {
+    private ValidationResponseDTO(String id, String ruleId, Boolean active, String path, String operator, String value,
+                                  Boolean cardValidation, String valueType) {
         this.id = id;
         this.ruleId = ruleId;
         this.active = active;
         this.path = path;
         this.operator = operator;
         this.value = value;
-        this.number = number;
         this.cardValidation = cardValidation;
+        this.valueType = valueType;
     }
 
     public static ValidationResponseDTOBuilder builder(){
@@ -42,8 +42,9 @@ public class ValidationResponseDTO {
         private String path;
         private String operator;
         private String value;
-        private Boolean number;
         private Boolean cardValidation;
+
+        private String valueType;
 
         public ValidationResponseDTOBuilder validationId(String id){
             this.id = id;
@@ -75,18 +76,19 @@ public class ValidationResponseDTO {
             return this;
         }
 
-        public ValidationResponseDTOBuilder isNumber(Boolean isNumber){
-            this.number = isNumber;
-            return this;
-        }
-
         public ValidationResponseDTOBuilder isCardValidation(Boolean cardValidation){
             this.cardValidation = cardValidation;
             return this;
         }
 
+        public ValidationResponseDTOBuilder valueType(String valueType){
+            this.valueType = valueType;
+            return this;
+        }
+
         public ValidationResponseDTO build(){
-            return new ValidationResponseDTO(this.id, this.ruleId, this.active, this.path, this.operator, this.value, this.number, this.cardValidation);
+            return new ValidationResponseDTO(this.id, this.ruleId, this.active, this.path, this.operator, this.value,
+                    this.cardValidation, this.valueType);
         }
     }
 }

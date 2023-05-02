@@ -6,15 +6,15 @@ import java.util.List;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class RuleResponseDTO {
-    private String id;
+    private final String id;
 
-    private String name;
+    private final String name;
 
-    private String segment;
+    private final String segment;
 
-    private Boolean active;
+    private final Boolean active;
 
-    private List<ValidationResponseDTO> validations;
+    private final List<ValidationResponseDTO> validations;
 
     public RuleResponseDTO(String id, String name, String segment, Boolean active, List<ValidationResponseDTO> validations) {
         this.id = id;

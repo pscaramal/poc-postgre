@@ -16,13 +16,13 @@ public class RuleRepositoryImpl implements RuleRepository {
     private static final String QUERY_FIND_ALL_RULES =
             "SELECT r.rule_id, r.rule_name, r.segment, r.isActive rule_active, v.validation_id,"  +
             "       v.isActive v_active, v.path, v.operator," +
-            "       v.value_validation, v.isValueNumber, v.isCardValidation " +
+            "       v.value_validation, v.isCardValidation, v.value_validation_type " +
             "FROM rule r JOIN validation v ON r.rule_id = v.rule_id " +
             "ORDER BY r.rule_id;";
     private static final String QUERY_FIND_ACTIVE_RULES_BY_SEGMENT =
             "SELECT r.rule_id, r.rule_name, r.segment, r.isActive rule_active, v.validation_id," +
             "       v.isActive v_active, v.path, v.operator," +
-            "       v.value_validation, v.isValueNumber, v.isCardValidation " +
+            "       v.value_validation, v.isCardValidation, v.value_validation_type " +
             "FROM rule r JOIN validation v ON r.rule_id = v.rule_id " +
             "WHERE r.isactive = true " +
             "AND r.segment = %s " +

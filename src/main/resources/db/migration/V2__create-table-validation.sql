@@ -1,4 +1,4 @@
-CREATE TABLE validation (
+CREATE TABLE IF NOT EXISTS validation (
 validation_id VARCHAR(36) NOT NULL,
 rule_id VARCHAR NOT NULL,
 isActive BOOLEAN NOT NULL,

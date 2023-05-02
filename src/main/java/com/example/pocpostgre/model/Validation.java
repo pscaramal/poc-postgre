@@ -6,31 +6,29 @@ import java.util.Map;
 
 public class Validation {
 
-    private String id;
+    private final String id;
 
-    private String ruleId;
+    private final String ruleId;
 
-    private Boolean active;
+    private final Boolean active;
 
-    private Path path;
+    private final Path path;
 
-    private String operator;
+    private final Operator operator;
 
-    private String value;
+    private final ValidationValue validationValue;
 
-    private Boolean number;
+    private final Boolean cardValidation;
 
-    private Boolean cardValidation;
-
-    private Validation (String id, String ruleId, Boolean active, Path path, String operator, String value, Boolean number, Boolean cardValidation){
+    private Validation (String id, String ruleId, Boolean active, Path path, Operator operator,
+                        Boolean cardValidation, ValidationValue validationValue){
         this.id = id;
         this.ruleId = ruleId;
         this.active = active;
         this.path = path;
         this.operator = operator;
-        this.value = value;
-        this.number = number;
         this.cardValidation = cardValidation;
+        this.validationValue = validationValue;
     }
 
     public static ValidationBuilder builder(){
@@ -45,7 +43,7 @@ public class Validation {
                     .path(row.get("path").toString())
                     .operator(row.get("operator").toString())
                     .withValue(row.get("value_validation").toString())
-                    .isNumber(Boolean.valueOf(row.get("isValueNumber").toString()))
+                    .validationValueType(row.get("value_validation_type") != null? row.get("value_validation_type").toString() : "")
                     .isCardValidation(Boolean.valueOf(row.get("isCardValidation").toString()))
                     .build();
         }
@@ -58,11 +56,21 @@ public class Validation {
                 .ruleId(this.ruleId)
                 .isActive(this.active)
                 .path(this.path.getPath())
-                .operator(this.operator)
-                .withValue(this.value)
-                .isNumber(this.number)
+                .operator(this.operator.getOperation())
+                .withValue(this.validationValue.getValue())
+                .valueType(this.validationValue.getValueType())
                 .isCardValidation(this.cardValidation)
                 .build();
+    }
+
+    public Boolean checkIfValidationMatch(String json) {
+         String valueOfJson = this.path.getValueFromJson(json);
+
+         if (valueOfJson == null){
+             return false;
+         }
+
+         return this.operator.verifyOperation(valueOfJson, this.validationValue);
     }
 
     public static class ValidationBuilder {
@@ -72,7 +80,7 @@ public class Validation {
         private String path;
         private String operator;
         private String value;
-        private Boolean number;
+        private String validationValueType;
         private Boolean cardValidation;
 
         public ValidationBuilder validationId(String id){
@@ -105,8 +113,8 @@ public class Validation {
             return this;
         }
 
-        public ValidationBuilder isNumber(Boolean isNumber){
-            this.number = isNumber;
+        public ValidationBuilder validationValueType(String validationValueType){
+            this.validationValueType = validationValueType;
             return this;
         }
 
@@ -116,7 +124,14 @@ public class Validation {
         }
 
         public Validation build(){
-            return new Validation(this.id, this.ruleId, this.active, new Path(this.path), this.operator, this.value, this.number, this.cardValidation);
+            return new Validation(
+                    this.id,
+                    this.ruleId,
+                    this.active,
+                    new Path(this.path),
+                    new Operator(this.operator),
+                    this.cardValidation,
+                    new ValidationValue(this.value, this.validationValueType));
         }
     }
 }

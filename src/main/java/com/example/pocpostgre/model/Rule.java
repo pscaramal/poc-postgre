@@ -1,26 +1,26 @@
 package com.example.pocpostgre.model;
 
 import com.example.pocpostgre.controller.dto.RuleResponseDTO;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Rule {
 
-    private String id;
+    private static final Logger log = LoggerFactory.getLogger(Rule.class);
+    private final String id;
 
-    private String name;
+    private final String name;
 
-    private String segment;
+    private final String segment;
 
-    private Boolean active;
+    private final Boolean active;
 
-    private List<Validation> validations;
+    private final List<Validation> validations;
 
     private Rule (String id, String name, String segment, Boolean active, List<Validation> validations){
         this.id = id;
@@ -30,6 +30,15 @@ public class Rule {
         this.validations = validations;
     }
 
+    public boolean verifyValidations(String json){
+        log.info("JSON={}, ruleId={}", json, this.id);
+        for (Validation validation : this.validations){
+            if (Boolean.FALSE.equals(validation.checkIfValidationMatch(json))){
+                return false;
+            }
+        }
+        return true;
+    }
     public static Mono<Rule> fromRow(List<Map<String, Object>> rows){
         return Mono.just(Rule.builder()
                         .ruleId(rows.get(0).get("rule_id").toString())
@@ -52,13 +61,18 @@ public class Rule {
                 .withValidations(this.validations
                         .stream()
                         .map(Validation::toDto)
-                        .collect(Collectors.toList()))
+                        .toList())
                 .build();
     }
 
     public static RuleBuilder builder(){
         return new RuleBuilder();
     }
+
+    public String getRuleId() {
+        return this.id;
+    }
+
     public static class RuleBuilder {
         private String id;
         private String name;
