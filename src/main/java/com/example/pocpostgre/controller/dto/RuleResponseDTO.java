@@ -12,9 +12,13 @@ public class RuleResponseDTO {
 
     private final String segment;
 
-    private final Boolean active;
+    private  Boolean active;
 
     private final List<ValidationResponseDTO> validations;
+
+    public String getSegment() {
+        return segment;
+    }
 
     public RuleResponseDTO(String id, String name, String segment, Boolean active, List<ValidationResponseDTO> validations) {
         this.id = id;

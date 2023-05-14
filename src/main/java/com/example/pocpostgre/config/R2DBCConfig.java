@@ -1,10 +1,7 @@
 package com.example.pocpostgre.config;
 
-import io.r2dbc.postgresql.PostgresqlConnectionConfiguration;
-import io.r2dbc.postgresql.PostgresqlConnectionFactory;
 import io.r2dbc.spi.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
@@ -12,6 +9,9 @@ import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 @Configuration
 @EnableR2dbcRepositories
 public class R2DBCConfig extends AbstractR2dbcConfiguration {
+
+    @Value("${spring.r2dbc.url}")
+    private String url;
 
     @Value("${spring.r2dbc.username}")
     private String userName;
@@ -28,17 +28,11 @@ public class R2DBCConfig extends AbstractR2dbcConfiguration {
     @Value("${spring.r2dbc.db}")
     private String db;
 
+    private DBConnectionFactory dbConnectionFactory;
+
     @Override
-    @Bean(name = "connectionFactoryPostgresql")
     public ConnectionFactory connectionFactory() {
-        return new PostgresqlConnectionFactory(
-                PostgresqlConnectionConfiguration.builder()
-                        .host(host)
-                        .port(port)
-                        .username(userName)
-                        .password(password)
-                        .database(db)
-                        .build()
-        );
+        return dbConnectionFactory
+                .getConnectionFactory(url, userName, password, host, port, db);
     }
 }

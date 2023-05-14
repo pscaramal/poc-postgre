@@ -1,0 +1,14 @@
+spring:
+  r2dbc:
+    url: 'r2dbc:pool:h2:mem:///~/db/db_sentry;Mode=PostgreSQL;DATABASE_TO_LOWER=TRUE;'
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+    port: 5432
+    host: ""
+    db: ""
+  flyway:
+    url: 'jdbc:h2:mem:~/db/db_sentry;DB_CLOSE_DELAY=-1;Mode=PostgreSQL;DATABASE_TO_LOWER=TRUE;'
+    username: ${spring.r2dbc.username}
+    password: ${spring.r2dbc.password}
+    baseline-on-migrate: true

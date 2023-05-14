@@ -2,4 +2,4 @@
 Entre no diretório `docker` e execute o comando `docker compose up`.
 Nas próximas vezes, apenas execute o comando `docker compose start`.
 
-Na raiz do projeto execute `./gradlew bootRun`
+Na raiz do projeto execute `./gradlew bootRun --args='--spring.profiles.active=local'`
